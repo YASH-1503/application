@@ -88,7 +88,7 @@
 <body>
     <div class="form-container">
         <h2>Contact Us</h2>
-        <form action="https://example.com/api/submit" method="POST">
+        <form id="contactForm">
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" placeholder="Enter your name" required>
@@ -101,9 +101,31 @@
                 <label for="message">Message:</label>
                 <textarea id="message" name="message" rows="5" placeholder="Enter your message" required></textarea>
             </div>
-            <button type="submit" class="submit-btn">Submit</button>
+            <button type="button" class="submit-btn" onclick="submitForm()">Submit</button>
         </form>
     </div>
+
+    <script>
+        async function submitForm() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
+            const response = await fetch('https://<API_GATEWAY_URL>/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name, email, message })
+            });
+
+            if (response.ok) {
+                alert('Message submitted successfully!');
+            } else {
+                alert('Failed to submit message.');
+            }
+        }
+    </script>
 </body>
 
 </html>
